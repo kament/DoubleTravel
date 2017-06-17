@@ -28,22 +28,15 @@ namespace TravelStateUpdater.UsaGovermentIntegration
             return countries.Countries;
         }
 
-        public async Task<object> CountryInfo(string countryCode)
+        public async Task<UsaCountryInfo> CountryInfo(string countryCode)
         {
             string url = string.Format(countryInfoUrl, countryCode);
 
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync(url); // not json but the country info url
+                Stream html = await client.GetStreamAsync(url);
 
-                if (SuccessResponse(json))
-                {
-                    UsaCountryInfo info = JsonConvert.DeserializeObject<UsaCountryInfo>(json);
-
-                    return info;
-                }
                 
-                return null; //With maybe
             }
         }
 

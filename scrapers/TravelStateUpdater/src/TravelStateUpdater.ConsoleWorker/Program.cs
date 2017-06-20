@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using TravelStateUpdater.UsaGovermentIntegration;
 
 namespace TravelStateUpdater.ConsoleWorker
@@ -10,10 +11,12 @@ namespace TravelStateUpdater.ConsoleWorker
     {
         public static void Main(string[] args)
         {
-            UsaGovermentApi api = new UsaGovermentApi();
-            var country = api.CountriesList().First();
+            ILoggerFactory loggerFactory = new LoggerFactory();
+            
+            UsaGovermentApi api = new UsaGovermentApi(loggerFactory);
+            //var country = api.CountriesList().First();
 
-            api.CountryInfo(country.Code).Wait();
+            api.CountryInfo("UZ").Wait();
         }
     }
 }

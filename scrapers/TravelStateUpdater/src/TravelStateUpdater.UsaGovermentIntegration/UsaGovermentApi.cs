@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using TravelStateUpdater.UsaGovermentIntegration.Factories;
 using TravelStateUpdater.UsaGovermentIntegration.Models;
 
 namespace TravelStateUpdater.UsaGovermentIntegration
@@ -13,11 +16,15 @@ namespace TravelStateUpdater.UsaGovermentIntegration
     {
         private string countryInfoUrl;
         private string filePath;
+        private CountryInfoHtmlFactory factory;
+        private string domain;
 
-        public UsaGovermentApi()
+        public UsaGovermentApi(ILoggerFactory loggerFactory)
         {
             filePath = @"C:\FmiProjects\WebSites\DoubltTravel\scrapers\TravelStateUpdater\src\TravelStateUpdater.UsaGovermentIntegration\countriesList.json";
-            countryInfoUrl = @"https://travel.state.gov/content/travel/resources/database/database.getautoselectpage.html?cid={0}&aid=MainCSIs";
+            domain = "https://travel.state.gov";
+            countryInfoUrl = @"{0}/content/travel/resources/database/database.getautoselectpage.html?cid={1}&aid=MainCSIs";
+            factory = new CountryInfoHtmlFactory(loggerFactory);
         }
 
         public IEnumerable<UsaCountryModel> CountriesList()
@@ -30,13 +37,26 @@ namespace TravelStateUpdater.UsaGovermentIntegration
 
         public async Task<UsaCountryInfo> CountryInfo(string countryCode)
         {
-            string url = string.Format(countryInfoUrl, countryCode);
-
-            using (HttpClient client = new HttpClient())
+            try
             {
-                Stream html = await client.GetStreamAsync(url);
+                string url = string.Format(countryInfoUrl, domain, countryCode);
 
-                
+                using (HttpClient client = new HttpClient())
+                {
+                    string countryInfoPath = await client.GetStringAsync(url);
+                    string html = await client.GetStringAsync(domain + countryInfoPath.Trim());
+
+                    XElement xml = XElement.Parse(html);
+
+                    UsaCountryInfo info = factory.Create(xml);
+
+                    return info;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
 

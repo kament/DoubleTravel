@@ -21,5 +21,6 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Models
         public string Attorney { get; internal set; }
 
         public string Mediaton { get; internal set; }
+        public AssistenceInfo AssistanceInfo { get; internal set; }
     }
 }

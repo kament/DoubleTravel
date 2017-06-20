@@ -2,9 +2,11 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "HtmlAgilityPack.NetCore": "1.5.0.1",
     "Microsoft.Extensions.Logging.Abstractions": "1.1.2",
     "NETStandard.Library": "1.6.1",
-    "Newtonsoft.Json": "10.0.2"
+    "Newtonsoft.Json": "10.0.2",
+    "System.Xml.XDocument": "4.3.0"
   },
 
   "frameworks": {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using TravelStateUpdater.UsaGovermentIntegration.Factories;
@@ -46,9 +47,10 @@ namespace TravelStateUpdater.UsaGovermentIntegration
                     string countryInfoPath = await client.GetStringAsync(url);
                     string html = await client.GetStringAsync(domain + countryInfoPath.Trim());
 
-                    XElement xml = XElement.Parse(html);
+                    var doc = new HtmlDocument();
+                    doc.LoadHtml(html);
 
-                    UsaCountryInfo info = factory.Create(xml);
+                    UsaCountryInfo info = factory.Create(doc);
 
                     return info;
                 }

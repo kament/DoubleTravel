@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DoubltTravel.Data.Models;
 
 namespace DoubltTravel.Data.Countrues
@@ -11,6 +12,6 @@ namespace DoubltTravel.Data.Countrues
 
         Country CountryById(int id);
 
-        IEnumerable<Country> Countries();
+        Task<IEnumerable<Country>> Countries();
     }
 }

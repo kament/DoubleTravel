@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data.SqlClient;
+    using System.Threading.Tasks;
 
     public class DapperRepository
     {
@@ -12,12 +13,16 @@
             this.connectionString = connectionString;
         }
 
-        protected Func<SqlConnection> ConnectionFactory
+        public async Task<TResult> QueryAsync<TResult>(Func<SqlConnection, TResult> func)
         {
-            get
+            TResult result;
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return () => new SqlConnection(connectionString);
+                await connection.OpenAsync();
+                result = func(connection);
             }
+
+            return result;
         }
     }
 }

@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using DoubltTravel.Data.Models;
 
 namespace DoubltTravel.Data.Countrues
 {
-    public class CountryRepository : ICountryRepository
+    public class CountryRepository : DapperRepository, ICountryRepository
     {
-        public IEnumerable<Country> Countries()
+        public CountryRepository(string connectionString) 
+            : base(connectionString)
         {
-            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Country>> Countries()
+        {
+            return await await QueryAsync(async (connection) =>
+             {
+                 IEnumerable<Country> countries = await connection.QueryAsync<Country>("SELECT * FROM Countrues");
+                 return countries;
+             });
         }
 
         public Country CountryById(int id)

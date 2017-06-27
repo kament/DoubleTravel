@@ -1,7 +1,9 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Dapper": "1.50.2",
+    "DoubltTravel.Data.Models": "1.0.0-*",
     "NETStandard.Library": "1.6.0"
   },
 

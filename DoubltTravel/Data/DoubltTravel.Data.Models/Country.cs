@@ -10,7 +10,7 @@
 
         public string Code { get; set; }
 
-        public int AssistenceIndoId { get; set; }
+        public int AssistenceInfoId { get; set; }
 
         public int CountryInfoId { get; set; }
 

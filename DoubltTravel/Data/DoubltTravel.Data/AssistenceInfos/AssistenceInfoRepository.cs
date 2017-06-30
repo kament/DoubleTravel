@@ -1,28 +1,56 @@
 ﻿namespace DoubltTravel.Data.AssistenceInfos
 {
-    using System.Data.SqlClient;
-    using System.Linq;
-    using Dapper;
+    using System.Threading.Tasks;
+
     using Models;
 
-    public class AssistenceInfoRepository : DapperRepository, IAssistenceInfoRepository
+    public class AssistenceInfoRepository : IAssistenceInfoRepository
     {
-        public AssistenceInfoRepository(string connectionString) 
-            : base(connectionString)
+        private SqlConnectionWrapper connection;
+
+        public AssistenceInfoRepository(string connectionString)
         {
+            connection = new SqlConnectionWrapper(connectionString);
         }
 
-        public AssistenceInfo GetById(int id)
+        public Task<AssistenceInfo> GetByIdAsync(int id)
         {
-            AssistenceInfo assistence;
-
-            using (SqlConnection connection = ConnectionFactory())
+            string getQuery = "SELECT * FROM AssistenceInfo WHERE Id = @Id";
+            var parameters = new
             {
-                connection.Open();
-                assistence = connection.Query<AssistenceInfo>("SELECT * FROM AssistenceInfo WHERE Id = @Id", new { Id = id}).First();
-            }
+                Id = id
+            };
 
-            return assistence;
+            return connection.QuerySingleOrDefaultAsync<AssistenceInfo>(getQuery, parameters);
+        }
+
+        public async Task<int> InsertAsync(AssistenceInfo assistenceInfo)
+        {
+            string insertQuery = "INSERT INTO AssistenceInfo VALUES(@Email, @Fax, @Phone, @Title, @Globe) SELECT SCOPE_IDENTITY()";
+            return await connection.QuerySingleOrDefaultAsync<int>(insertQuery, assistenceInfo);
+        }
+
+        public Task<int> UpdateAsync(int id, AssistenceInfo assistenceInfo)
+        {
+            string updateQuery = @"UPDATE AssistenceInfo 
+                                   SET Email = @Email,
+                                       Fax = @Fax
+                                       Phone = @Phone
+                                       Title = @Title,
+                                       Globe = @Globe
+                                   WHERE Id = @Id";
+
+            var parameters = new
+            {
+                Email = assistenceInfo.Email,
+                Fax = assistenceInfo.Fax,
+                Phone = assistenceInfo.Phone,
+                Title = assistenceInfo.Title,
+                Globe = assistenceInfo.Globe,
+                Id = id
+            };
+
+            return connection.ExecuteAsync(updateQuery, parameters);
         }
     }
 }

@@ -6,12 +6,12 @@ namespace DoubltTravel.Data.Countrues
 {
     public interface ICountryRepository
     {
-        void Insert(Country country);
-
-        void Update(Country country);
-
-        Country CountryById(int id);
-
         Task<IEnumerable<Country>> Countries();
+
+        Task<Country> CountryByIdAsync(int id);
+
+        Task<Country> CountryByCodeAsync(string code);
+                
+        Task<int> Insert(Country country);
     }
 }

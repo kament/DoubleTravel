@@ -1,9 +1,15 @@
-﻿using DoubltTravel.Data.Models;
-
-namespace DoubltTravel.Data.AssistenceInfos
+﻿namespace DoubltTravel.Data.AssistenceInfos
 {
+    using System.Threading.Tasks;
+
+    using Models;
+
     public interface IAssistenceInfoRepository
     {
-        AssistenceInfo GetById(int id);
+        Task<AssistenceInfo> GetByIdAsync(int id);
+
+        Task<int> InsertAsync(AssistenceInfo assistenceInfo);
+
+        Task<int> UpdateAsync(int id, AssistenceInfo assistenceInfo);
     }
 }

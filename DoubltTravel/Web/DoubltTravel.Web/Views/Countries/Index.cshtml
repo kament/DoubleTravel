@@ -1,16 +1,39 @@
 ﻿@model DoubltTravel.Data.Models.Country
 
 <div>
-    <div>@Model.Code</div>
-    <div>@Model.Name</div>
-    <div>@Model.AssistenceInfo?.Email</div>
-    <div>@Model.AssistenceInfo?.Fax</div>
-    <div>@Model.AssistenceInfo?.Globe</div>
-    <div>@Model.AssistenceInfo?.Phone</div>
-    <div>@Model.AssistenceInfo?.Title</div>
-    <div>@Model.CountryInfo?.Access</div>
-    <div>@Model.CountryInfo?.Attorney</div>
-    <div>@Model.CountryInfo?.GeneralInformation</div>
-    <div>@Model.CountryInfo?.Mediaton</div>
-    <div>@Model.CountryInfo?.Return</div>
+    <img src="@string.Format("https://travel.state.gov/content/dam/travel/flags/{0}_flag.gif/_jcr_content/renditions/cq5dam.thumbnail.140.100.png", Model.Code)" alt="@Model.Name" />
+    <h1>@Model.Name</h1>
+
 </div>
+<ul>
+    <li>@Model.AssistenceInfo?.Email</li>
+    <li>@Model.AssistenceInfo?.Fax</li>
+    <li>@Model.AssistenceInfo?.Globe</li>
+    <li>@Model.AssistenceInfo?.Phone</li>
+    <li>@Model.AssistenceInfo?.Title</li>
+</ul>
+
+<ul>
+    <li>
+        <h3>Access</h3>
+        <div>@Model.CountryInfo?.Access</div>
+    </li>
+    <li>
+        <h3>Attorney</h3>
+        <div>@Model.CountryInfo?.Attorney</div>
+    </li>
+    <li>
+        <h3>General Information</h3>
+        <div>@Model.CountryInfo?.GeneralInformation</div>
+    </li>
+    <li>
+        <h3>Mediaton</h3>
+        <div>
+            @Model.CountryInfo?.Mediaton
+        </div>
+    </li>
+    <li>
+        <h3>Return</h3>
+        <div>@Model.CountryInfo?.Return</div>
+    </li>
+</ul>

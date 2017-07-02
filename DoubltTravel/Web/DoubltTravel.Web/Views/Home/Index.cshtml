@@ -3,11 +3,22 @@
 }
 @model IEnumerable<DoubltTravel.Data.Models.Country>
 
-<div>
+<div class="map">
+    <iframe width="600"
+            height="450"
+            frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB1Zhgv6Wb0qYv2j90BB7Jd0LnJIMwFkvM&q=Space+Needle,Seattle+WA" allowfullscreen></iframe>
+</div>
+<div class="left">
     @foreach (var country in Model)
     {
-        <div>
-            <a href="/Countries?id=@country.Id">@country.Name - @country.Code</a>
+        <div>            
+            <a href="/Countries?id=@country.Id"><h1>@country.Name</h1></a>
+            <a href="/Countries?id=@country.Id">
+                <img src="@string.Format("https://travel.state.gov/content/dam/travel/flags/{0}_flag.gif/_jcr_content/renditions/cq5dam.thumbnail.140.100.png", country.Code)" alt="@country.Name" />
+            </a>
+            
         </div>
     }
 </div>
+

@@ -59,11 +59,11 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
 
             if (assistanceForUsaCitisens != null)
             {
-                string name = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "p" && x.Attributes["class"]?.Value == "emphasize")?.InnerText?.Trim();
-                string phone = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_phone")?.InnerText?.Trim();
-                string fax = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_fax")?.InnerText?.Trim();
-                string email = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_email")?.InnerText?.Trim();
-                string globe = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_globe")?.InnerText?.Trim();
+                string name = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "p" && x.Attributes["class"]?.Value == "emphasize")?.InnerText?.Trim()?.Replace("&nbsp;", " ")?.Replace("&nbsp;", " ");
+                string phone = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_phone")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
+                string fax = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_fax")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
+                string email = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_email")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
+                string globe = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_globe")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
 
                 return new UsaAssistenceInfo(name, phone, fax, email, globe);
             }
@@ -77,7 +77,7 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
         {
             if (element != null)
             {
-                string text = element.InnerText?.Trim();
+                string text = element.InnerText?.Trim()?.Replace("&nbsp;", " ");
 
                 return text;
             }
@@ -94,10 +94,10 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
 
             foreach (var element in embassiesAndConsules)
             {
-                string address = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "address")?.InnerText?.Trim();
-                string phone = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "phone")?.InnerText?.Trim();
-                string fax = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "fax")?.InnerText?.Trim();
-                string email = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "email")?.InnerText?.Trim();
+                string address = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "address")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
+                string phone = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "phone")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
+                string fax = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "fax")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
+                string email = element.Descendants().FirstOrDefault(e => e.Attributes["class"]?.Value == "email")?.InnerText?.Trim()?.Replace("&nbsp;", " ");
 
                 yield return new CountryRepresentativeDepartment
                 {

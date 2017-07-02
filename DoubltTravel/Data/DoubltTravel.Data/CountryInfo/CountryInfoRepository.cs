@@ -36,7 +36,19 @@
                                        HagueAbductionConvention = @HagueAbductionConvention
                                        Return = @Return
                                        Attorney = @Attorney
-                                       Mediaton = @Mediaton";
+                                       Mediaton = @Mediaton
+                                   WHERE Id = @id";
+
+            var parameters = new
+            {
+                Access = assistenceInfo.Access,
+                GeneralInformation = assistenceInfo.GeneralInformation,
+                HagueAbductionConvention = assistenceInfo.HagueAbductionConvention,
+                Return = assistenceInfo.Return,
+                Attorney = assistenceInfo.Attorney,
+                Mediaton = assistenceInfo.Mediaton,
+                Id = id
+            };
 
             return await connection.ExecuteAsync(updateQuery, assistenceInfo);
         }

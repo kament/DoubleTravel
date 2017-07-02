@@ -58,7 +58,7 @@
             return result;
         }
 
-        public async Task<TReturn> QuerySingleOrDefaultAsync<TFirst, TSecond, TThird, TFourth, TReturn>(string sql, Func<TFirst, TSecond, TThird, TFourth, TReturn> map, object param)
+        public async Task<TReturn> QuerySingleOrDefaultAsync<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param)
         {
             TReturn result;
             using (SqlConnection connection = new SqlConnection(connectionString))

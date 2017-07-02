@@ -14,6 +14,9 @@
         private IAssistenceInfoRepository assistenceInfoRepository;
         private ICountryInfoRepository countryInfoRepository;
 
+        private static int assistanceInfoId = 0;
+        private static int countryInfoId = 0;
+
         public CountryRepository(IConnectionStringProvider provider, IAssistenceInfoRepository assistenceInfoRepository, ICountryInfoRepository countryInfoRepository)
         {
             connection = new SqlConnectionWrapper(provider.Value);
@@ -28,17 +31,19 @@
 
         public async Task<Country> CountryByIdAsync(int id)
         {
-            var country = await connection.QuerySingleOrDefaultAsync<Country>("SELECT * FROM Countrues WHERE Id = @Id", new { Id = id });
+            var country = await connection.QuerySingleOrDefaultAsync<Country>("SELECT * FROM Countries WHERE Id = @Id", new { Id = id });
 
             return country;
         }
 
         public async Task<int> InsertAsync(Country country)
         {
-            int assistanceInfoId = await this.assistenceInfoRepository.InsertAsync(country.AssistenceInfo);
-            int countryInfoId = await this.countryInfoRepository.InsertAsync(country.CountryInfo);
+            await this.assistenceInfoRepository.InsertAsync(country.AssistenceInfo);
+            await this.countryInfoRepository.InsertAsync(country.CountryInfo);
 
-            string insertQuery = "INSERT INTO Countries VALUES(@Name, @Code, @AssistenceIndoId, @CountryInfoId) SELECT SCOPE_IDENTITY()";
+            assistanceInfoId += 1;
+            countryInfoId += 1;
+            string insertQuery = "INSERT INTO Countries VALUES(@Name, @Code, @AssistenceInfoId, @CountryInfoId)";
 
             var parameters = new
             {
@@ -48,13 +53,13 @@
                 CountryInfoId = countryInfoId
             };
 
-            return await connection.QuerySingleOrDefaultAsync<int>(insertQuery, parameters);
+            return await connection.ExecuteAsync(insertQuery, parameters);
         }
 
         public async Task<Country> CountryByCodeAsync(string code)
         {
             string sql = @"SELECT * 
-                           FROM Countrues c 
+                           FROM Countries c 
                            INNER JOIN CountryInfo cf
                                 ON c.CountryInfoId = cf.Id
                            INNER JOIN AssistenceInfo af
@@ -66,13 +71,12 @@
                 Code = code
             };
 
-            Country result = await connection.QuerySingleOrDefaultAsync<Country, AssistenceInfo, CountryInfo, IEnumerable<Representative>, Country>
+            Country result = await connection.QuerySingleOrDefaultAsync<Country, AssistenceInfo, CountryInfo, Country>
             (sql,
-            (country, assistance, countryInfo, representatieves) =>
+            (country, assistance, countryInfo) =>
             {
                 country.AssistenceInfo = assistance;
                 country.CountryInfo = countryInfo;
-                country.Representatives = representatieves;
 
                 return country;
             }, 

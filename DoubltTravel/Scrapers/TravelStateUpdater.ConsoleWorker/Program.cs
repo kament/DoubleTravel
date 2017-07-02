@@ -17,14 +17,30 @@ namespace TravelStateUpdater.ConsoleWorker
 
             IEnumerable<UsaCountryModel> countries = api.CountriesList();
 
+            //ComputeAsync(container, api, countries);
+            ComputeSync(container, api, countries).Wait();
+
+            Console.WriteLine("Done!");
+            Console.ReadLine();
+        }
+
+        private static void ComputeAsync(Container container, UsaGovermentApi api, IEnumerable<UsaCountryModel> countries)
+        {
             var a = Parallel.ForEach(countries, async (country) =>
             {
                 try
                 {
                     UsaCountryInfo info = await api.CountryInfo(country.Code);
-                    CountryService service = container.GetInstance<CountryService>();
+                    if (info != null)
+                    {
+                        CountryService service = container.GetInstance<CountryService>();
 
-                    await service.AddOrUpdate(info, country);
+                        await service.AddOrUpdate(info, country);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No info for {country.Code}");
+                    }
                 }
                 catch (System.Exception ex)
                 {
@@ -33,11 +49,32 @@ namespace TravelStateUpdater.ConsoleWorker
 
             while (!a.IsCompleted)
             {
-
-
             }
+        }
 
-            Console.ReadLine();
+        private static async Task ComputeSync(Container container, UsaGovermentApi api, IEnumerable<UsaCountryModel> countries)
+        {
+            foreach(var country in countries)
+            {
+                try
+                {
+                    UsaCountryInfo info = await api.CountryInfo(country.Code);
+                    if (info != null)
+                    {
+                        CountryService service = container.GetInstance<CountryService>();
+
+                        await service.AddOrUpdate(info, country);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No info for {country.Code}");
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine($"Failed for {country.Code} {ex.Message}");
+                }
+            }
         }
     }
 }

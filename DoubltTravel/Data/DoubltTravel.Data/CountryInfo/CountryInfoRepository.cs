@@ -21,9 +21,9 @@
 
         public async Task<int> InsertAsync(CountryInfo assistenceInfo)
         {
-            string insertQuery = "INSERT INTO CountryInfo VALUES(@Access, @GeneralInformation, @HagueAbductionConvention, @Return, @Attorney, @Mediaton) SELECT SCOPE_IDENTITY()";
+            string insertQuery = "INSERT INTO CountryInfo VALUES(@Access, @GeneralInformation, @HagueAbductionConvention, @Return, @Attorney, @Mediaton)";
 
-            int id = await connection.QuerySingleOrDefaultAsync<int>(insertQuery, assistenceInfo);
+            int id = await connection.ExecuteAsync(insertQuery, assistenceInfo);
 
             return id;
         }

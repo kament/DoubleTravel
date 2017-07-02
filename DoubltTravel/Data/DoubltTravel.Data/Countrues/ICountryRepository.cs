@@ -6,7 +6,7 @@ namespace DoubltTravel.Data.Countrues
 {
     public interface ICountryRepository
     {
-        Task<IEnumerable<Country>> Countries();
+        Task<IEnumerable<Country>> CountriesAsync();
 
         Task<Country> CountryByIdAsync(int id);
 

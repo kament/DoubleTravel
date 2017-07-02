@@ -24,9 +24,9 @@
             this.countryInfoRepository = countryInfoRepository;
         }
 
-        public async Task<IEnumerable<Country>> Countries()
+        public async Task<IEnumerable<Country>> CountriesAsync()
         {
-            return await connection.QueryAsync<Country>("SELECT * FROM Countrues");
+            return await connection.QueryAsync<Country>("SELECT * FROM Countries");
         }
 
         public async Task<Country> CountryByIdAsync(int id)

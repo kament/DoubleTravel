@@ -55,8 +55,6 @@ namespace DoubltTravel.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));InvalidOperationException: No service for type 'Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration' has been registered.
-            //loggerFactory.AddDebug();
             try
             {
                 InitializeContainer(app);

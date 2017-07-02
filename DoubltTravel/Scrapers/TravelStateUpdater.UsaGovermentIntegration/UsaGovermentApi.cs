@@ -18,12 +18,12 @@ namespace TravelStateUpdater.UsaGovermentIntegration
         private CountryInfoHtmlFactory factory;
         private string domain;
 
-        public UsaGovermentApi(ILoggerFactory loggerFactory)
+        public UsaGovermentApi(CountryInfoHtmlFactory factory)
         {
             filePath = @"C:\FmiProjects\WebSites\DoubltTravel\scrapers\TravelStateUpdater\src\TravelStateUpdater.UsaGovermentIntegration\countriesList.json";
             domain = "https://travel.state.gov";
             countryInfoUrl = @"{0}/content/travel/resources/database/database.getautoselectpage.html?cid={1}&aid=MainCSIs";
-            factory = new CountryInfoHtmlFactory(loggerFactory);
+            this.factory = factory;
         }
 
         public IEnumerable<UsaCountryModel> CountriesList()

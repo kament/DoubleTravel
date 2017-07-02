@@ -8,9 +8,9 @@
     {
         private SqlConnectionWrapper connection;
 
-        public AssistenceInfoRepository(string connectionString)
+        public AssistenceInfoRepository(IConnectionStringProvider provider)
         {
-            connection = new SqlConnectionWrapper(connectionString);
+            connection = new SqlConnectionWrapper(provider.Value);
         }
 
         public Task<AssistenceInfo> GetByIdAsync(int id)

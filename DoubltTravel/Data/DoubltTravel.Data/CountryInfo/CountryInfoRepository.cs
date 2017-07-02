@@ -7,9 +7,9 @@
     {
         private SqlConnectionWrapper connection;
 
-        public CountryInfoRepository(string connectionString)
+        public CountryInfoRepository(IConnectionStringProvider provider)
         {
-            connection = new SqlConnectionWrapper(connectionString);
+            connection = new SqlConnectionWrapper(provider.Value);
         }
 
         public async Task<CountryInfo> GetByIdAsync(int id)

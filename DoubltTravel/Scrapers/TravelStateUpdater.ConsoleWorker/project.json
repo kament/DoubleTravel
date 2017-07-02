@@ -10,6 +10,7 @@
       "type": "platform",
       "version": "1.0.1"
     },
+    "SimpleInjector": "4.0.8",
     "TravelStateUpdater.Core": "1.0.0-*",
     "TravelStateUpdater.UsaGovermentIntegration": "1.0.0-*"
   },

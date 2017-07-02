@@ -653,6 +653,19 @@
           }
         }
       },
+      "SimpleInjector/4.0.8": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "System.ComponentModel": "4.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/SimpleInjector.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/SimpleInjector.dll": {}
+        }
+      },
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3301,6 +3314,23 @@
         "runtime.win7-x86.runtime.native.System.Data.SqlClient.sni.4.0.1.nupkg.sha512",
         "runtime.win7-x86.runtime.native.System.Data.SqlClient.sni.nuspec",
         "runtimes/win7-x86/native/sni.dll"
+      ]
+    },
+    "SimpleInjector/4.0.8": {
+      "sha512": "P7E2z+7lhwoZRNQyi77Z/skV6Nwir3k92JnPgQElCOJ5/3xzsDx6JFtmhCYTR7CDhKr9RdTSXBEai/NXZsv9/Q==",
+      "type": "package",
+      "path": "SimpleInjector/4.0.8",
+      "files": [
+        "SimpleInjector.4.0.8.nupkg.sha512",
+        "SimpleInjector.nuspec",
+        "lib/net40/SimpleInjector.dll",
+        "lib/net40/SimpleInjector.xml",
+        "lib/net45/SimpleInjector.dll",
+        "lib/net45/SimpleInjector.xml",
+        "lib/netstandard1.0/SimpleInjector.dll",
+        "lib/netstandard1.0/SimpleInjector.xml",
+        "lib/netstandard1.3/SimpleInjector.dll",
+        "lib/netstandard1.3/SimpleInjector.xml"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -7918,6 +7948,7 @@
     "": [
       "Microsoft.Extensions.Logging >= 1.1.2",
       "Microsoft.NETCore.App >= 1.0.1",
+      "SimpleInjector >= 4.0.8",
       "TravelStateUpdater.Core >= 1.0.0-*",
       "TravelStateUpdater.UsaGovermentIntegration >= 1.0.0-*"
     ],

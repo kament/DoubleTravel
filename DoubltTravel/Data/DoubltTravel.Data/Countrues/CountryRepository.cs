@@ -14,9 +14,9 @@
         private Lazy<IAssistenceInfoRepository> assistenceInfoRepository;
         private Lazy<ICountryInfoRepository> countryInfoRepository;
 
-        public CountryRepository(string connectionString, Lazy<IAssistenceInfoRepository> assistenceInfoRepository, Lazy<ICountryInfoRepository> countryInfoRepository)
+        public CountryRepository(IConnectionStringProvider provider, Lazy<IAssistenceInfoRepository> assistenceInfoRepository, Lazy<ICountryInfoRepository> countryInfoRepository)
         {
-            connection = new SqlConnectionWrapper(connectionString);
+            connection = new SqlConnectionWrapper(provider.Value);
             this.assistenceInfoRepository = assistenceInfoRepository;
             this.countryInfoRepository = countryInfoRepository;
         }

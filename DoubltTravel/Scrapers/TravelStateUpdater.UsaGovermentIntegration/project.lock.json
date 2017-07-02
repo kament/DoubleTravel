@@ -1453,6 +1453,19 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.dll": {}
         }
+      },
+      "DoubltTravel.Data.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "netstandard1.6/DoubltTravel.Data.Models.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/DoubltTravel.Data.Models.dll": {}
+        }
       }
     }
   },
@@ -5145,10 +5158,16 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "DoubltTravel.Data.Models/1.0.0": {
+      "type": "project",
+      "path": "../../Data/DoubltTravel.Data.Models/project.json",
+      "msbuildProject": "../../Data/DoubltTravel.Data.Models/DoubltTravel.Data.Models.xproj"
     }
   },
   "projectFileDependencyGroups": {
     "": [
+      "DoubltTravel.Data.Models >= 1.0.0-*",
       "HtmlAgilityPack.NetCore >= 1.5.0.1",
       "Microsoft.Extensions.Logging.Abstractions >= 1.1.2",
       "NETStandard.Library >= 1.6.1",

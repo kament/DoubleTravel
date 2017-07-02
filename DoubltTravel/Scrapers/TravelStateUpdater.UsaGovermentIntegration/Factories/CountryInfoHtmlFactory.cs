@@ -49,7 +49,7 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
             string attorney = GetString(ddElements[5], "Retaining an Attorney");
             string mediaton = GetString(ddElements[6], "Mediation");
 
-            AssistenceInfo assistanceInfo = GenerateAssistenceInfo(xml);
+            UsaAssistenceInfo assistanceInfo = GenerateAssistenceInfo(xml);
 
             return new UsaCountryInfo()
             {
@@ -64,7 +64,7 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
             };
         }
 
-        private AssistenceInfo GenerateAssistenceInfo(HtmlDocument xml)
+        private UsaAssistenceInfo GenerateAssistenceInfo(HtmlDocument xml)
         {
             IEnumerable<HtmlNode> assistanceForUsaCitisens = xml.DocumentNode.Descendants()
                  .FirstOrDefault(e => e.Attributes["id"]?.Value == "componentbox_resourc").Descendants();
@@ -77,7 +77,7 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
                 string email = assistanceForUsaCitisens.First(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_email")?.InnerText?.Trim();
                 string globe = assistanceForUsaCitisens.First(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_globe")?.InnerText?.Trim();
 
-                return new AssistenceInfo(name, phone, fax, email, globe);
+                return new UsaAssistenceInfo(name, phone, fax, email, globe);
             }
             else
             {

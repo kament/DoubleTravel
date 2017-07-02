@@ -33,7 +33,7 @@
             return country;
         }
 
-        public async Task<int> Insert(Country country)
+        public async Task<int> InsertAsync(Country country)
         {
             int assistanceInfoId = await this.assistenceInfoRepository.Value.InsertAsync(country.AssistenceInfo);
             int countryInfoId = await this.countryInfoRepository.Value.InsertAsync(country.CountryInfo);

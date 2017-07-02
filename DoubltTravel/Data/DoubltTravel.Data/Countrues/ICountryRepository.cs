@@ -12,6 +12,6 @@ namespace DoubltTravel.Data.Countrues
 
         Task<Country> CountryByCodeAsync(string code);
                 
-        Task<int> Insert(Country country);
+        Task<int> InsertAsync(Country country);
     }
 }

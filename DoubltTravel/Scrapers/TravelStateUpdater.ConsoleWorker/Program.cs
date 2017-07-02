@@ -14,7 +14,7 @@ namespace TravelStateUpdater.ConsoleWorker
             ILoggerFactory loggerFactory = new LoggerFactory();
             
             UsaGovermentApi api = new UsaGovermentApi(loggerFactory);
-            //var country = api.CountriesList().First();
+            var country = api.CountriesList();
 
             api.CountryInfo("UZ").Wait();
         }

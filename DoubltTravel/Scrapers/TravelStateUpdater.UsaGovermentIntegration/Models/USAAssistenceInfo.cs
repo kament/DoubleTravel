@@ -1,8 +1,8 @@
 ﻿namespace TravelStateUpdater.UsaGovermentIntegration.Models
 {
-    public class AssistenceInfo
+    public class UsaAssistenceInfo
     {
-        public AssistenceInfo(string name, string phone, string fax, string email, string globe)
+        public UsaAssistenceInfo(string name, string phone, string fax, string email, string globe)
         {
             Name = name;
             Phone = phone;

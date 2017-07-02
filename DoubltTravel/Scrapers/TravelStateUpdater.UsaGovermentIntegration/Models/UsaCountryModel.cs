@@ -1,4 +1,6 @@
-﻿namespace TravelStateUpdater.UsaGovermentIntegration.Models
+﻿using DoubltTravel.Data.Models;
+
+namespace TravelStateUpdater.UsaGovermentIntegration.Models
 {
     public class UsaCountryModel
     {

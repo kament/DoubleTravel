@@ -2,6 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "DoubltTravel.Data.Models": "1.0.0-*",
     "HtmlAgilityPack.NetCore": "1.5.0.1",
     "Microsoft.Extensions.Logging.Abstractions": "1.1.2",
     "NETStandard.Library": "1.6.1",

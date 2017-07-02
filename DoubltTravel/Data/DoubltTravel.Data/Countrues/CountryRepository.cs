@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using AssistenceInfos;
@@ -13,10 +14,7 @@
         private SqlConnectionWrapper connection;
         private IAssistenceInfoRepository assistenceInfoRepository;
         private ICountryInfoRepository countryInfoRepository;
-
-        private static int assistanceInfoId = 0;
-        private static int countryInfoId = 0;
-
+        
         public CountryRepository(IConnectionStringProvider provider, IAssistenceInfoRepository assistenceInfoRepository, ICountryInfoRepository countryInfoRepository)
         {
             connection = new SqlConnectionWrapper(provider.Value);
@@ -31,7 +29,7 @@
 
         public async Task<Country> CountryByIdAsync(int id)
         {
-            string sql = @"SELECT * 
+            string sql = @"SELECT c.Id, c.Name, c.Code, af.Email as Email, af.Fax, af.Phone, af.Title, af.Globe, cf.Access as Access, cf.GeneralInformation, cf.HagueAbductionConvention, cf.[Return], cf.Attorney, cf.Mediaton
                            FROM Countries c 
                            INNER JOIN CountryInfo cf
                                 ON c.CountryInfoId = cf.Id
@@ -53,6 +51,7 @@
 
                 return country;
             },
+            "Email, Access",
             parameters);
 
             return result;
@@ -60,11 +59,9 @@
 
         public async Task<int> InsertAsync(Country country)
         {
-            await this.assistenceInfoRepository.InsertAsync(country.AssistenceInfo);
-            await this.countryInfoRepository.InsertAsync(country.CountryInfo);
-
-            assistanceInfoId += 1;
-            countryInfoId += 1;
+            int assistanceInfoId = await this.assistenceInfoRepository.InsertAsync(country.AssistenceInfo);
+            int countryInfoId = await this.countryInfoRepository.InsertAsync(country.CountryInfo);
+            
             string insertQuery = "INSERT INTO Countries VALUES(@Name, @Code, @AssistenceInfoId, @CountryInfoId)";
 
             var parameters = new
@@ -80,7 +77,7 @@
 
         public async Task<Country> CountryByCodeAsync(string code)
         {
-            string sql = @"SELECT * 
+            string sql = @"SELECT c.Id, c.Name, c.Code, af.Email as Email, af.Fax, af.Phone, af.Title, af.Globe, cf.Access as Access, cf.GeneralInformation, cf.HagueAbductionConvention, cf.[Return], cf.Attorney, cf.Mediaton
                            FROM Countries c 
                            INNER JOIN CountryInfo cf
                                 ON c.CountryInfoId = cf.Id
@@ -102,6 +99,7 @@
 
                 return country;
             }, 
+            "Email, Access",
             parameters);
 
             return result;

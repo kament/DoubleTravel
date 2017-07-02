@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
     using System.Threading.Tasks;
@@ -43,7 +44,7 @@
 
             return result;
         }
-
+        
         public async Task<TResult> QuerySingleOrDefaultAsync<TResult>(string query)
         {
             TResult result;
@@ -58,13 +59,13 @@
             return result;
         }
 
-        public async Task<TReturn> QuerySingleOrDefaultAsync<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, object param)
+        public async Task<TReturn> QuerySingleOrDefaultAsync<TFirst, TSecond, TThird, TReturn>(string sql, Func<TFirst, TSecond, TThird, TReturn> map, string split, object param)
         {
             TReturn result;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                var results = await connection.QueryAsync(sql, map, param);
+                var results = await connection.QueryAsync(sql, map, param, splitOn: split);
 
                 result = results.SingleOrDefault();
 
@@ -108,8 +109,9 @@
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-                result = await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
 
+                result = connection.Query<int>("SELECT @@IDENTITY").Single();
                 connection.Close();
             }
 

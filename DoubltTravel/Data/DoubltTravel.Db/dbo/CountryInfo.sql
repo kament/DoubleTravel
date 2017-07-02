@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[CountryInfo]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), 
     [Access] TEXT NOT NULL, 
     [GeneralInformation] TEXT NOT NULL, 
     [HagueAbductionConvention] TEXT NOT NULL, 

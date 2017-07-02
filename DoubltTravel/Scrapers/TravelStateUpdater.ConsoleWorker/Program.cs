@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SimpleInjector;
 using TravelStateUpdater.Core;
@@ -16,7 +17,7 @@ namespace TravelStateUpdater.ConsoleWorker
 
             IEnumerable<UsaCountryModel> countries = api.CountriesList();
 
-            Parallel.ForEach(countries, async (country) =>
+            var a = Parallel.ForEach(countries, async (country) =>
             {
                 try
                 {
@@ -29,6 +30,14 @@ namespace TravelStateUpdater.ConsoleWorker
                 {
                 }
             });
+
+            while (!a.IsCompleted)
+            {
+
+
+            }
+
+            Console.ReadLine();
         }
     }
 }

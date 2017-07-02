@@ -20,7 +20,7 @@ namespace TravelStateUpdater.UsaGovermentIntegration
 
         public UsaGovermentApi(CountryInfoHtmlFactory factory)
         {
-            filePath = @"C:\FmiProjects\WebSites\DoubltTravel\scrapers\TravelStateUpdater\src\TravelStateUpdater.UsaGovermentIntegration\countriesList.json";
+            filePath = @"C:\FmiProjects\WebSites\DoubltTravel\DoubltTravel\Scrapers\TravelStateUpdater.UsaGovermentIntegration\countriesList.json";
             domain = "https://travel.state.gov";
             countryInfoUrl = @"{0}/content/travel/resources/database/database.getautoselectpage.html?cid={1}&aid=MainCSIs";
             this.factory = factory;

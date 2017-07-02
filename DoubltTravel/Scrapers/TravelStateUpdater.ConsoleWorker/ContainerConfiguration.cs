@@ -1,4 +1,5 @@
-﻿using DoubltTravel.Data;
+﻿using System;
+using DoubltTravel.Data;
 using DoubltTravel.Data.AssistenceInfos;
 using DoubltTravel.Data.Countrues;
 using DoubltTravel.Data.CountryInfo;
@@ -23,7 +24,6 @@ namespace TravelStateUpdater.ConsoleWorker
             container.Register<CountryService>();
             container.Register<CountryInfoHtmlFactory>();
             container.Register<UsaGovermentApi>();
-            container.Register<ILoggerFactory, LoggerFactory>();
 
             container.Verify();
 

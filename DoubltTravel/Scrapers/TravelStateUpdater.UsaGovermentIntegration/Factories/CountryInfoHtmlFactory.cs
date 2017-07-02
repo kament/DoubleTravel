@@ -9,13 +9,6 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
 {
     public class CountryInfoHtmlFactory
     {
-        private ILogger logger;
-
-        public CountryInfoHtmlFactory(ILoggerFactory loggerFactory)
-        {
-            logger = loggerFactory.CreateLogger("CountryInfoHtmlFactory");
-        }
-
         public UsaCountryInfo Create(HtmlDocument xml)
         {
             HtmlNode generalInfoContainer = FindGeneralInfoContainer(xml);
@@ -30,8 +23,6 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
             }
             else
             {
-                logger.LogCritical("Couldn't parse the xml because \"expandos\" container doesn't exists");
-
                 return null;
             }
         }
@@ -68,18 +59,16 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
 
             if (assistanceForUsaCitisens != null)
             {
-                string name = assistanceForUsaCitisens.First(x => x.Name == "p" && x.Attributes["class"]?.Value == "emphasize")?.InnerText?.Trim();
-                string phone = assistanceForUsaCitisens.First(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_phone")?.InnerText?.Trim();
-                string fax = assistanceForUsaCitisens.First(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_fax")?.InnerText?.Trim();
-                string email = assistanceForUsaCitisens.First(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_email")?.InnerText?.Trim();
-                string globe = assistanceForUsaCitisens.First(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_globe")?.InnerText?.Trim();
+                string name = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "p" && x.Attributes["class"]?.Value == "emphasize")?.InnerText?.Trim();
+                string phone = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_phone")?.InnerText?.Trim();
+                string fax = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_fax")?.InnerText?.Trim();
+                string email = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_email")?.InnerText?.Trim();
+                string globe = assistanceForUsaCitisens.FirstOrDefault(x => x.Name == "li" && x.Attributes["class"]?.Value == "icon_globe")?.InnerText?.Trim();
 
                 return new UsaAssistenceInfo(name, phone, fax, email, globe);
             }
             else
             {
-                logger.LogCritical("Cannot parse GenerateAssistenceInfo");
-
                 throw new Exception("Parse GenerateAssistenceInfo fail, parsing cannot continue!");
             }
         }
@@ -94,8 +83,6 @@ namespace TravelStateUpdater.UsaGovermentIntegration.Factories
             }
             else
             {
-                logger.LogCritical("Cannot parse {0}", valueName);
-
                 return null;
             }
         }

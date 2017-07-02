@@ -11,13 +11,13 @@ namespace TravelStateUpdater.Core
 {
     public class CountryService
     {
-        private Lazy<IAssistenceInfoRepository> assistanceRepository;
-        private Lazy<ICountryInfoRepository> countryInfoRepository;
-        private Lazy<ICountryRepository> countryRepository;
+        private IAssistenceInfoRepository assistanceRepository;
+        private ICountryInfoRepository countryInfoRepository;
+        private ICountryRepository countryRepository;
 
-        public CountryService(Lazy<IAssistenceInfoRepository> assistanceRepository, 
-            Lazy<ICountryRepository> countryRepository,
-            Lazy<ICountryInfoRepository> countryInfoRepository)
+        public CountryService(IAssistenceInfoRepository assistanceRepository, 
+            ICountryRepository countryRepository,
+            ICountryInfoRepository countryInfoRepository)
         {
             this.assistanceRepository = assistanceRepository;
             this.countryRepository = countryRepository;
@@ -26,7 +26,7 @@ namespace TravelStateUpdater.Core
 
         public async Task AddOrUpdate(UsaCountryInfo countryInfo, UsaCountryModel country)
         {
-            Country dbCountry = await countryRepository.Value.CountryByCodeAsync(country.Code);
+            Country dbCountry = await countryRepository.CountryByCodeAsync(country.Code);
             if(dbCountry == null)
             {
                 await Add(countryInfo, country);
@@ -42,8 +42,8 @@ namespace TravelStateUpdater.Core
             AssistanceInfoFactory.Update(dbCountry.AssistenceInfo, countryInfo.AssistanceInfo);
             CountryInfoFactory.Update(dbCountry.CountryInfo, countryInfo);
 
-            await assistanceRepository.Value.UpdateAsync(dbCountry.Id, dbCountry.AssistenceInfo);
-            await countryInfoRepository.Value.UpdateAsync(dbCountry.Id, dbCountry.CountryInfo);
+            await assistanceRepository.UpdateAsync(dbCountry.Id, dbCountry.AssistenceInfo);
+            await countryInfoRepository.UpdateAsync(dbCountry.Id, dbCountry.CountryInfo);
 
             //TODO: Update Representatieves too
         }
@@ -51,7 +51,7 @@ namespace TravelStateUpdater.Core
         private async Task Add(UsaCountryInfo countryInfo, UsaCountryModel country)
         {
             Country countryToInsert = CountryFactory.Create(country, AssistanceInfoFactory.Create(countryInfo.AssistanceInfo), CountryInfoFactory.Create(countryInfo));
-            await countryRepository.Value.InsertAsync(countryToInsert);
+            await countryRepository.InsertAsync(countryToInsert);
         }
     }
 }

@@ -11,10 +11,10 @@
     public class CountryRepository : ICountryRepository
     {
         private SqlConnectionWrapper connection;
-        private Lazy<IAssistenceInfoRepository> assistenceInfoRepository;
-        private Lazy<ICountryInfoRepository> countryInfoRepository;
+        private IAssistenceInfoRepository assistenceInfoRepository;
+        private ICountryInfoRepository countryInfoRepository;
 
-        public CountryRepository(IConnectionStringProvider provider, Lazy<IAssistenceInfoRepository> assistenceInfoRepository, Lazy<ICountryInfoRepository> countryInfoRepository)
+        public CountryRepository(IConnectionStringProvider provider, IAssistenceInfoRepository assistenceInfoRepository, ICountryInfoRepository countryInfoRepository)
         {
             connection = new SqlConnectionWrapper(provider.Value);
             this.assistenceInfoRepository = assistenceInfoRepository;
@@ -35,8 +35,8 @@
 
         public async Task<int> InsertAsync(Country country)
         {
-            int assistanceInfoId = await this.assistenceInfoRepository.Value.InsertAsync(country.AssistenceInfo);
-            int countryInfoId = await this.countryInfoRepository.Value.InsertAsync(country.CountryInfo);
+            int assistanceInfoId = await this.assistenceInfoRepository.InsertAsync(country.AssistenceInfo);
+            int countryInfoId = await this.countryInfoRepository.InsertAsync(country.CountryInfo);
 
             string insertQuery = "INSERT INTO Countries VALUES(@Name, @Code, @AssistenceIndoId, @CountryInfoId) SELECT SCOPE_IDENTITY()";
 

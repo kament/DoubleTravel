@@ -11,7 +11,7 @@ namespace DoubltTravel.Data
         {
             get
             {
-                throw new NotImplementedException();
+                return "Data Source=.\\sqlexpress;Initial Catalog=DoubltTravel;Integrated Security=SSPI;";
             }
         }
     }

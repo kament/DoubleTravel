@@ -1,26 +1,44 @@
 ﻿namespace DoubltTravel.Data.CountryInfo
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Models;
 
     public class CountryInfoRepository : ICountryInfoRepository
     {
-        public Task<CountryInfo> GetByIdAsync(int id)
+        private SqlConnectionWrapper connection;
+
+        public CountryInfoRepository(string connectionString)
         {
-            throw new NotImplementedException();
+            connection = new SqlConnectionWrapper(connectionString);
         }
 
-        public Task<int> InsertAsync(CountryInfo assistenceInfo)
+        public async Task<CountryInfo> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var countryInfo = await connection.QuerySingleOrDefaultAsync<CountryInfo>("SELECT * FROM CountryInfo WHERE Id = @Id", new { Id = id });
+
+            return countryInfo;
         }
 
-        public Task<int> UpdateAsync(int id, CountryInfo assistenceInfo)
+        public async Task<int> InsertAsync(CountryInfo assistenceInfo)
         {
-            throw new NotImplementedException();
+            string insertQuery = "INSERT INTO CountryInfo VALUES(@Access, @GeneralInformation, @HagueAbductionConvention, @Return, @Attorney, @Mediaton) SELECT SCOPE_IDENTITY()";
+
+            int id = await connection.QuerySingleOrDefaultAsync<int>(insertQuery, assistenceInfo);
+
+            return id;
+        }
+
+        public async Task<int> UpdateAsync(int id, CountryInfo assistenceInfo)
+        {
+            string updateQuery = @"UPDATE CountryInfo
+                                   SET Access = @Access
+                                       GeneralInformation = @GeneralInformation
+                                       HagueAbductionConvention = @HagueAbductionConvention
+                                       Return = @Return
+                                       Attorney = @Attorney
+                                       Mediaton = @Mediaton";
+
+            return await connection.ExecuteAsync(updateQuery, assistenceInfo);
         }
     }
 }

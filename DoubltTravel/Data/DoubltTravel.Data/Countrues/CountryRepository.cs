@@ -31,9 +31,31 @@
 
         public async Task<Country> CountryByIdAsync(int id)
         {
-            var country = await connection.QuerySingleOrDefaultAsync<Country>("SELECT * FROM Countries WHERE Id = @Id", new { Id = id });
+            string sql = @"SELECT * 
+                           FROM Countries c 
+                           INNER JOIN CountryInfo cf
+                                ON c.CountryInfoId = cf.Id
+                           INNER JOIN AssistenceInfo af
+                                ON c.AssistenceInfoId = af.Id
+                           WHERE c.Id = @Id";
 
-            return country;
+            var parameters = new
+            {
+                Id = id
+            };
+
+            Country result = await connection.QuerySingleOrDefaultAsync<Country, AssistenceInfo, CountryInfo, Country>
+            (sql,
+            (country, assistance, countryInfo) =>
+            {
+                country.AssistenceInfo = assistance;
+                country.CountryInfo = countryInfo;
+
+                return country;
+            },
+            parameters);
+
+            return result;
         }
 
         public async Task<int> InsertAsync(Country country)

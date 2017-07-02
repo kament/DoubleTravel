@@ -6,6 +6,8 @@
 <div>
     @foreach (var country in Model)
     {
-        <div>@country.Name - @country.Code</div>
+        <div>
+            <a href="/Countries?id=@country.Id">@country.Name - @country.Code</a>
+        </div>
     }
 </div>
